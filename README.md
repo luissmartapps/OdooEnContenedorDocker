@@ -2,6 +2,7 @@
 Instalación de Odoo en contenedor Docker
 
 Instalación de Docker Engine
+
 	1.	Configurar repositorio apt de Docker
 		a.	Agregar la GPG key oficial de Docker:
 			sudo apt-get update
@@ -33,6 +34,7 @@ Instalación de Docker Engine
 			sudo systemctl status docker
 
 Instalación de Docker Compose
+
 	1.	Descargar e instalar Docker Compose
 		a.	Correr el comando:
 			sudo curl -SL https://github.com/docker/compose/releases/download/v2.32.4/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
@@ -44,6 +46,7 @@ Instalación de Docker Compose
 			docker compose version
 
 Instalación de Odoo
+
 	1.	Creación de '.yml' y '.conf'
 		a.	Cambiar permisos del 'root':
 			sudo chown tu_usuario:tu_usuario /
@@ -60,59 +63,23 @@ Instalación de Odoo
 		d.	Crear archivo 'docker-compose.yml' dentro del directorio 'docker':
 			nano docker-compose.yml
 
-		e.	Colocar lo siguiente dentro del archivo 'docker-compose.yml':
-version: '3.1'
+		e.	Abre el archivo llamado 'docker-compose.yml' dentro de este repositorio
+  
+  		f.	Copia y pega su contenido dentro del archivo docker-compose.yml que acabas de crear.
 
-services:
-  db:
-    image: postgres:15
-    user: root
-    environment:
-      POSTGRES_USER: odoo
-      POSTGRES_PASSWORD: odoo
-      POSTGRES_DB: postgres
-    volumes:
-      - /odoo/docker/pg:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-
-  odoo:
-    image: odoo:17.0
-    user: root
-    tty: true
-    command: odoo -c /etc/odoo/odoo.conf
-    depends_on:
-      - db
-    ports:
-      - "8069:8069"
-      - "8072:8072"
-    volumes:
-      - /odoo/docker/config/odoo.conf:/etc/odoo/odoo.conf
-      - /odoo/docker/data:/var/lib/odoo
-    environment:
-      - PGHOST=db
-      - PGUSER=odoo
-      - PGPASSWORD=odoo
-
-
-		f.	Descargar el Dockerfile de la versión de Odoo que deseas instalar:
+		g.	Descargar el Dockerfile de la versión de Odoo que deseas instalar:
 			sudo curl -o Dockerfile https://raw.githubusercontent.com/odoo/docker/refs/heads/master/17.0/Dockerfile
 
-		g.	Crear directorio 'config' dentro del directorio 'docker':
+		h.	Crear directorio 'config' dentro del directorio 'docker':
 			mkdir config
 			cd config
 
-		h.	Crear archivo 'odoo.conf' dentro del directorio 'config':
+		i.	Crear archivo 'odoo.conf' dentro del directorio 'config':
 			nano odoo.conf
 
-		i.	Colocar lo siguiente dentro del archivo 'odoo.conf':
-			[options]
-			db_host = db
-			db_user = odoo
-			db_password = odoo
-			db_port = 5432
-			data_dir = /var/lib/odoo
-			db_name = False
+		j.	Abre el archivo llamado 'odoo.conf' dentro de este repositorio.
+
+  		k.	Copia y pega su contenido dentro del archivo 'odoo.conf' que acabas de crear.
 
 		j.	Volver al directorio anterior (/odoo/docker):
 			cd ..
@@ -123,5 +90,5 @@ services:
 		l.	Ejecutar el comando para obtener Odoo. Coloca el número de la versión que se desea obtener después de los dos puntos:
 			sudo docker pull odoo:17.0
 
-		m. Levantar el contenedor de Docker que tiene Odoo instalado:
+		m. 	Levantar el contenedor de Docker que tiene Odoo instalado:
 			docker compose up -d

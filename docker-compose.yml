@@ -1,0 +1,32 @@
+version: '3.1'
+
+services:
+  db:
+    image: postgres:15
+    user: root
+    environment:
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD: odoo
+      POSTGRES_DB: postgres
+    volumes:
+      - /odoo/docker/pg:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  odoo:
+    image: odoo:17.0
+    user: root
+    tty: true
+    command: odoo -c /etc/odoo/odoo.conf
+    depends_on:
+      - db
+    ports:
+      - "8069:8069"
+      - "8072:8072"
+    volumes:
+      - /odoo/docker/config/odoo.conf:/etc/odoo/odoo.conf
+      - /odoo/docker/data:/var/lib/odoo
+    environment:
+      - PGHOST=db
+      - PGUSER=odoo
+      - PGPASSWORD=odoo

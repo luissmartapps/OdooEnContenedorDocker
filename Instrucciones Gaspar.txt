@@ -1,0 +1,9 @@
+docker run -d -p 127.0.0.1:5432:5432 -e POSTGRES_USER=odoo -e POSTGRES_PASSWORD=odoo -e POSTGRES_DB=postgres --name dbAstra postgres:14
+
+docker run -v  ~/Desarrollo/odoo/Astra/:/mnt/extra-addons -p 8069:8069 --name odooAstra --link dbAstra:db -t odoo:17.0
+
+docker exec -it -u root odooName /bin/bash
+
+cd mnt/extra-addons/
+
+docker logs odooApp14 --tail 100  -f

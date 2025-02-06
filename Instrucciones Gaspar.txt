@@ -1,9 +1,26 @@
-docker run -d -p 127.0.0.1:5432:5432 -e POSTGRES_USER=odoo -e POSTGRES_PASSWORD=odoo -e POSTGRES_DB=postgres --name dbAstra postgres:14
+Con esta instrucción se levanta un contenedor de Docker para la base de datos PostgreSQL con nombre dbOdooLuis 
+- docker run -d -p 127.0.0.1:5432:5432 -e POSTGRES_USER=odoo -e POSTGRES_PASSWORD=odoo -e POSTGRES_DB=postgres --name dbOdooLuis postgres:14
 
-docker run -v  ~/odoo/OdooEnterprise/:/mnt/extra-addons -p 8069:8069 --name odooEnterprise --link dbOdooEnterprise:db -t odoo:17.0
+Contenedor para la imagen de Odoo y lo linkea al contenedor de la  base de datos que se creó anteriormente (en este caso, dbOdooLuis). También es importante que la carpeta listada (en este caso, OdooEnterprise) exista en el direcotrio especificado (en este caso, ~/odoo/OdooEnterprise/) 
+- docker run -v  ~/odoo/OdooEnterprise/:/mnt/extra-addons -p 8069:8069 --name odooEnterprise --link dbOdooLuis:db -t odoo:17.0
 
-docker exec -it -u root odooName /bin/bash
+Copiar el .deb a la carpeta ~/odoo/OdooEnterprise
 
+Esta instrucción permite entrar al contenedor de Odoo (en este caso, odooEnterprise) ya que necesitamos instalar la versión Enterprise. Hay que asegurarnos que el nombre del contenedor de Odoo haga match con el nombre que se le asigno anteriormente.
+- docker exec -it -u root odooEnterprise /bin/bash
+
+Entrar al directorio mnt/extra-addons/
 cd mnt/extra-addons/
+
+Correr un apt update
+
+Instalar el .deb
+dpkg -i odoo_17.0+e.latest_all.deb
+
+Una vez instalado, podemos salir del contenedor
+exit
+
+Reiniciar el contenedor de Odoo (odooEnterprise)
+docker restart odooEnterprise
 
 docker logs odooApp14 --tail 100  -f

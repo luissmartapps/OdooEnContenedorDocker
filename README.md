@@ -36,48 +36,45 @@ Instalación de Docker Engine
 
 Instalación de Odoo
 
-	1.	Creación de '.yml' y '.conf'
-		a.	Cambiar permisos del 'root':
-			sudo chown tu_usuario:tu_usuario /
+	1.	Levantar contenedor Docker para la base de datos PostgreSQL con nombre dbOdooLuis (El nombre se puede cambiar)
+ 		a.	docker run -d -p 127.0.0.1:5432:5432 -e POSTGRES_USER=odoo -e POSTGRES_PASSWORD=odoo -e POSTGRES_DB=postgres --name dbOdooLuis postgres:14
 
-		b.	Crear directorio 'odoo' en '/':
-			cd /
-			mkdir odoo
-			cd odoo
+ 	2.	Crear directorio donde se almacenará al instalación (en este caso, odoo/OdooEnterprise).
+		a.	mkdir odoo
+  			cd odoo
+    			mkdir OdooEnterprise
+      			cd OdooEnterprise
+	
+	3.	Levantar el contenedor de la base de datos
+ 		a. 	sudo docker start dbOdooLuis
 
-		c.	Crear directorio 'docker' dentro del directorio 'odoo':
-			mkdir docker
-			cd docker
+    	4.	Crear un contenedor para la imagen de Odoo y enlazarlo al contenedor de la base de datos creado en el paso anterior.
+     		a.	docker run -v  ~/odoo/OdooEnterprise/:/mnt/extra-addons -p 8069:8069 --name odooEnterprise --link dbOdooLuis:db -t odoo:17.0
 
-		d.	Crear archivo 'docker-compose.yml' dentro del directorio 'docker':
-			nano docker-compose.yml
+    	5.	Descargar megatools para luego descargar el .deb
+     		a.	sudo apt update
+       			sudo apt install megatools -y
 
-		e.	Abre el archivo llamado 'docker-compose.yml' dentro de este repositorio
-  
-  		f.	Copia y pega su contenido dentro del archivo docker-compose.yml que acabas de crear.
+   	6.	Descargar el .deb a la carpeta ~/odoo/OdooEnterprise
+	    	a.	cd ~/odoo/OdooEnterprise
+			megadl 'https://mega.nz/file/kAQCmbyS#eh58EoUf_nh0RemP-jZWSdVI9vD4NShqQnsM2M1A3ro'
 
-		g.	Descargar el Dockerfile de la versión de Odoo que deseas instalar:
-			sudo curl -o Dockerfile https://raw.githubusercontent.com/odoo/docker/refs/heads/master/17.0/Dockerfile
+   	7.	Levantar el contenedor de Odoo (por si aún no lo está)
+    		a. 	sudo docker start odooEnterprise
 
-		h.	Crear directorio 'config' dentro del directorio 'docker':
-			mkdir config
-			cd config
+	8.	Entrar al contenedor de Odoo
+		a.	docker exec -it -u root odooEnterprise /bin/bash
 
-		i.	Crear archivo 'odoo.conf' dentro del directorio 'config':
-			nano odoo.conf
+  	9.	Una vez dentro del contenedor, entrar al directorio mnt/extra-addons/
+		a.	cd mnt/extra-addons/
 
-		j.	Abre el archivo llamado 'odoo.conf' dentro de este repositorio.
+  	10.	Correr un apt update
+   
+	11.	Instalar el .deb
+ 		a.	dpkg -i odoo_17.0+e.latest_all.deb
 
-  		k.	Copia y pega su contenido dentro del archivo 'odoo.conf' que acabas de crear.
+	12.	Una vez instalado, podemos salir del contenedor
+		a.	exit
 
-		j.	Volver al directorio anterior (/odoo/docker):
-			cd ..
-
-		k.	Ejecutar el comando para obtener PostgreSQL. Colocar el número de la versión que se desea obtener después de los dos puntos:
-			sudo docker pull postgres:15
-
-		l.	Ejecutar el comando para obtener Odoo. Coloca el número de la versión que se desea obtener después de los dos puntos:
-			sudo docker pull odoo:17.0
-
-		m. 	Levantar el contenedor de Docker que tiene Odoo instalado:
-			docker compose up -d
+	13.	Reiniciar el contenedor de Odoo (odooEnterprise)
+		a. docker restart odooEnterprise

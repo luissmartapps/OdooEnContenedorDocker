@@ -33,17 +33,6 @@ Instalación de Docker Engine
 			sudo systemctl enable --now docker 
 			sudo systemctl status docker
 
-Instalación de Docker Compose
-
-	1.	Descargar e instalar Docker Compose
-		a.	Correr el comando:
-			sudo curl -SL https://github.com/docker/compose/releases/download/v2.32.4/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
-
-		b.	Aplicar permisos ejecutables al binario independiente en la ruta de destino para la instalación:
-			sudo chmod +x /usr/local/bin/docker-compose
-
-		c.	Validar y verificar la versión de Docker Compose:
-			docker compose version
 
 Instalación de Odoo
 

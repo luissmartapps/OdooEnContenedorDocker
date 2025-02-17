@@ -57,7 +57,7 @@ Instalación de Odoo
 
    	6.	Descargar el .deb a la carpeta ~/odoo/OdooEnterprise
 	    	a.	cd ~/odoo/OdooEnterprise
-      			Para Odoo 17:
+      		Para Odoo 17:
 			megadl 'https://mega.nz/file/kAQCmbyS#eh58EoUf_nh0RemP-jZWSdVI9vD4NShqQnsM2M1A3ro'
 
    			Para Odoo 18:

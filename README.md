@@ -60,9 +60,6 @@ Instalación de Odoo
       		Para Odoo 17:
 			megadl 'https://mega.nz/file/kAQCmbyS#eh58EoUf_nh0RemP-jZWSdVI9vD4NShqQnsM2M1A3ro'
 
-   			Para Odoo 18:
-   			megadl 'https://mega.nz/file/UVgQRQbI#MMdjHMwSiWQjEPMs_16FpCv0kF-1EDw_OWOHAaR9_L4'
-
    	7.	Levantar el contenedor de Odoo (por si aún no lo está)
     	a. 	sudo docker start odooEnterprise
 
